@@ -11,15 +11,15 @@ class NavBar extends Component {
                     <img src={Logo} alt="store" className="navbar-brand"/>
                 </Link>
                 <ul className="navbar-nav align-items-center">
-                    <li className="nav-item ms-5">
+                    <li className="nav-item ml-5">
                         <Link to="/" className="nav-link">
                         Productos
                         </Link>
                     </li>
                 </ul>
-                <Link to="/cart" className="ms-auto">
+                <Link to="/cart" className="ml-auto">
                     <ButtonContainer>
-                       <span className="me-2"> {/* me == mr (bootstrap 5.0) */}
+                       <span className="mr-2">
                             <i className="fas fa-cart-plus"></i>
                        </span>
                         Carrito
