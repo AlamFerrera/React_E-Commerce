@@ -24,8 +24,16 @@ export default class ProductProvider extends Component {
         });
     }
 
-    handleDetail = () => {
-        console.log("Hello from detail");
+    getItem = id => {
+        const producto = this.state.productos.find(item => item.id === id);
+        return producto;
+    }
+
+    handleDetail = id => {
+        const producto = this.getItem(id);
+        this.setState(() => {
+            return{detailProduct: producto};
+        })
     }
 
     addToCart = (id) => {
