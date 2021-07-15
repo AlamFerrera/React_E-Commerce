@@ -7,9 +7,12 @@ export default class ProductProvider extends Component {
     state = {
         productos: [],
         detailProduct: detailProduct,
-        cart: [],
+        cart: storeProducts,
         modalOpen: false,
         modalProducto: detailProduct,
+        cartSubTotal: 0,
+        cartTax:0,
+        cartTotal:0
     };
 
     componentDidMount(){
@@ -53,9 +56,9 @@ export default class ProductProvider extends Component {
                 productos: tempProducto,
                 cart: [...this.state.cart, producto]
             };
-        }, () => {
+        }/*, () => {
             console.log(this.state);
-        });
+        }*/);
     };
 
     openModal = id => {
@@ -73,6 +76,22 @@ export default class ProductProvider extends Component {
         });
     };
 
+    incremento = (id) => {
+        console.log("incremento");
+    };
+
+    decremento = (id) => {
+        console.log("decremento");
+    };
+
+    removeItem = (id) => {
+        console.log("eliminado");
+    }
+
+    clearCart = () => {
+        console.log("limpiado");
+    }
+
     render() {
         return (
             <ProductContext.Provider value={{
@@ -80,7 +99,11 @@ export default class ProductProvider extends Component {
                handleDetail: this.handleDetail,
                addToCart: this.addToCart,
                openModal: this.openModal,
-               closeModal: this.closeModal
+               closeModal: this.closeModal,
+               increment: this.incremento,
+               decrement: this.decremento,
+               removeItem: this.removeItem,
+               clearCart: this.clearCart
             }}>
                 {this.props.children}
             </ProductContext.Provider>
