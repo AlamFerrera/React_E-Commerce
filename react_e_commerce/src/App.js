@@ -7,6 +7,7 @@ import ProductList from './Componentes/Product-list/product-list.jsx';
 import Detalle from './Componentes/Detalle/detalle.jsx';
 import Cart from './Componentes/Cart/cart.jsx';
 import Default from './Componentes/Default';
+import Modal from './Componentes/Modal/modal.jsx';
 
 class App extends Component {
   render(){
@@ -19,6 +20,7 @@ class App extends Component {
           <Route path="/cart" component={Cart}/>
           <Route component={Default}/>
         </Switch>
+        <Modal/>
       </Fragment>
   );
   };

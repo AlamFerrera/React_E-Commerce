@@ -45,6 +45,7 @@ class Detalle extends Component{
                                                  cart
                                                  onClick={()=>{
                                                      value.addToCart(id);
+                                                     value.openModal(id);
                                                  }} >
                                     {
                                         inCart ? "En Carrito" : "Agregar a carrito"

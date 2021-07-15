@@ -6,7 +6,10 @@ const ProductContext = React.createContext();
 export default class ProductProvider extends Component {
     state = {
         productos: [],
-        detailProduct: detailProduct
+        detailProduct: detailProduct,
+        cart: [],
+        modalOpen: false,
+        modalProducto: detailProduct,
     };
 
     componentDidMount(){
@@ -27,25 +30,57 @@ export default class ProductProvider extends Component {
     getItem = id => {
         const producto = this.state.productos.find(item => item.id === id);
         return producto;
-    }
+    };
 
     handleDetail = id => {
         const producto = this.getItem(id);
         this.setState(() => {
             return{detailProduct: producto};
-        })
-    }
+        });
+    };
 
-    addToCart = (id) => {
-        console.log("El id es: ", id);
-    }
+    addToCart = id => {
+        let tempProducto = [...this.state.productos];
+        const index = tempProducto.indexOf(this.getItem(id));
+        const producto = tempProducto[index];
+        producto.inCart = true;
+        producto.count = 1;
+        const price = producto.price;
+        producto.total = price;
+
+        this.setState(() => {
+            return{
+                productos: tempProducto,
+                cart: [...this.state.cart, producto]
+            };
+        }, () => {
+            console.log(this.state);
+        });
+    };
+
+    openModal = id => {
+        const producto = this.getItem(id);
+        this.setState(() => {
+            return {modalProducto: producto, 
+                    modalOpen:true
+            };
+        });
+    };
+
+    closeModal = () => {
+        this.setState({
+            modalOpen: false
+        });
+    };
 
     render() {
         return (
             <ProductContext.Provider value={{
                ...this.state,
                handleDetail: this.handleDetail,
-               addToCart: this.addToCart
+               addToCart: this.addToCart,
+               openModal: this.openModal,
+               closeModal: this.closeModal
             }}>
                 {this.props.children}
             </ProductContext.Provider>
