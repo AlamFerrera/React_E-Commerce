@@ -7,7 +7,7 @@ export default class ProductProvider extends Component {
     state = {
         productos: [],
         detailProduct: detailProduct,
-        cart: storeProducts,
+        cart: [],
         modalOpen: false,
         modalProducto: detailProduct,
         cartSubTotal: 0,
@@ -56,9 +56,9 @@ export default class ProductProvider extends Component {
                 productos: tempProducto,
                 cart: [...this.state.cart, producto]
             };
-        }/*, () => {
-            console.log(this.state);
-        }*/);
+        }, () => {
+           this.addTotals();
+        });
     };
 
     openModal = id => {
@@ -85,12 +85,51 @@ export default class ProductProvider extends Component {
     };
 
     removeItem = (id) => {
-        console.log("eliminado");
-    }
+        let tempProductos = [...this.state.productos];
+        let tempCart = [...this.state.cart];
+
+        tempCart = tempCart.filter(item =>item.id !== id);
+
+        const index = tempProductos.indexOf(this.getItem(id));
+        let removedProduct = tempProductos[index];
+
+        removedProduct.inCart = false;
+        removedProduct.count = 0;
+        removedProduct.total = 0;
+
+        this.setState(() => {
+            return{
+                cart:[...tempCart],
+                productos: [...tempProductos]
+            };
+        }, () => {
+            this.addTotals();
+        });
+    };
 
     clearCart = () => {
-        console.log("limpiado");
-    }
+        this.setState(() => {
+            return{
+                cart: []
+            }
+        }, () => {
+            this.setProductos();
+            this.addTotals();
+        });
+    };
+
+    addTotals = () => {
+        let subTotal = 0;
+        this.state.cart.map(item => (subTotal += item.total));
+        const tempTax = subTotal * 0.10;
+        const tax = parseFloat(tempTax.toFixed(2));
+        const total = subTotal + tax;
+        this.setState({
+            cartSubTotal: subTotal,
+            cartTax: tax,
+            cartTotal: total
+        });
+    };
 
     render() {
         return (
